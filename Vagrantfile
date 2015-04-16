@@ -121,11 +121,13 @@ Vagrant.configure("2") do |config|
       end
 
       # Puppet
-      if vmconf.has_key?('puppet') && (vmconf['puppet'].respond_to? :each)
+      if vmconf['vm'].has_key?('puppet') && (vmconf['vm']['puppet'].respond_to? :each)
         # updates puppet before puppet provisions
-        machine.vm.provision :shell, :path => "./shell/upgrade-puppet.sh"
+        if File.exists?(File.expand_path(File.join(vdir, "shell/upgrade-puppet.sh")))
+          machine.vm.provision :shell, :path => "shell/upgrade-puppet.sh"
+        end
 
-        vmconf['puppet'].each do |provision|
+        vmconf['vm']['puppet'].each do |provision|
           machine.vm.provision :puppet do |puppet|
             provision.each do |key, value|
               puppet.send("#{key}=", value)
