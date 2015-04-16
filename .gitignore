@@ -1,0 +1,7 @@
+# Vagrant defaults
+.vagrant
+
+# Vagrant config
+hosts
+machines.yaml
+hiera.yaml
