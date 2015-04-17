@@ -4,3 +4,24 @@
 [submodule "puppet/modules/apt"]
 	path = puppet/modules/apt
 	url = https://github.com/puppetlabs/puppetlabs-apt.git
+[submodule "puppet/modules/puppi"]
+	path = puppet/modules/puppi
+	url = https://github.com/example42/puppi.git
+[submodule "puppet/modules/apache"]
+	path = puppet/modules/apache
+	url = https://github.com/example42/puppet-apache.git
+[submodule "puppet/modules/php"]
+	path = puppet/modules/php
+	url = https://github.com/example42/puppet-php.git
+[submodule "puppet/modules/xdebug"]
+	path = puppet/modules/xdebug
+	url = https://github.com/ridonkulous/puppet-xdebug.git
+[submodule "puppet/modules/git"]
+	path = puppet/modules/git
+	url = https://github.com/puppetlabs/puppetlabs-git.git
+[submodule "puppet/modules/wget"]
+	path = puppet/modules/wget
+	url = https://github.com/maestrodev/puppet-wget.git
+[submodule "puppet/modules/composer"]
+	path = puppet/modules/composer
+	url = https://github.com/willdurand/puppet-composer.git
