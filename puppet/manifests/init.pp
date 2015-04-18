@@ -11,7 +11,8 @@ node 'default' {
     command => 'apt-get update -qq',
     path    => '/usr/bin/',
     timeout => 60,
-    tries   => 3
+    tries   => 3,
+    require => Apt::Ppa['ppa:ondrej/php5']
   }
 
   apt::ppa { 'ppa:ondrej/php5':
@@ -34,20 +35,26 @@ node 'default' {
 
   # apache
   class { 'apache':
+    mpm_module => 'prefork',
+    docroot => '/vagrant',
     require => Apt::Ppa['ppa:ondrej/php5']
   }
 
-  apache::vhost { 'default':
-    docroot  => '/vagrant'
+  apache::vhost { 'vagrant.dev':
+    docroot       => '/vagrant',
+    override      => 'All',
+    serveraliases => [
+      'www.vagrant.dev'
+    ]
   }
 
-  apache::module { 'rewrite': }
+  apache::mod { 'rewrite': }
 
   # php
   class { 'php':
     version => 'latest',
-    service => 'apache',
-    require => Package['apache']
+    service => 'apache2',
+    require => Class['apache']
   }
 
   $php_modules = hiera('php_modules', [
@@ -55,12 +62,13 @@ node 'default' {
     'curl',
     'intl',
     'mcrypt',
-    'mysqlnd'
+    'mysqlnd',
+    'xsl'
   ])
 
   php::module { $php_modules: }
 
-  php::module { ["apc"]:
+  php::module { ["apc", "suhosin"]:
     module_prefix => "php-"
   }
 
@@ -86,7 +94,41 @@ node 'default' {
   }
 
   class { 'composer':
-    require => Package['php5']
+    require => Class['php']
+  }
+
+  # mysql
+   $mysql_root_password = hiera('mysql_root_pass', '123456')
+   class { 'mysql::server':
+     root_password => $mysql_root_password,
+   }
+
+   $mysql_db = hiera('mysql_db', {
+     'db' => {
+       user     => 'dev',
+       password => '123456',
+       host     => 'localhost',
+       grant    => ['all'],
+       charset  => 'utf8'
+     }
+   })
+
+   create_resources(mysql::db, $mysql_db, {require => File['/root/.my.cnf']})
+
+  # node.js
+  class { 'nodejs':
+    version => 'latest'
+  }
+
+  $npm_modules = hiera('npm_modules', [
+    'bower',
+    'gulp',
+    'stylus'
+  ])
+
+  package { $npm_modules:
+    provider => 'npm',
+    require  => Class['nodejs']
   }
 
 }
