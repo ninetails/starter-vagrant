@@ -147,7 +147,6 @@ Vagrant.configure("2") do |config|
 
   # vagrant-hostsupdater
   if Vagrant.has_plugin?("vagrant-hostsupdater")
-    config.hostsupdater.aliases = aliases
     config.hostsupdater.remove_on_suspend = true
   end
 
