@@ -22,18 +22,18 @@
 [submodule "puppet/modules/composer"]
 	path = puppet/modules/composer
 	url = https://github.com/willdurand/puppet-composer.git
-[submodule "puppet\\modules\\apache"]
-	path = puppet\\modules\\apache
+[submodule "puppet/modules/apache"]
+	path = puppet/modules/apache
 	url = https://github.com/puppetlabs/puppetlabs-apache.git
-[submodule "puppet\\modules\\concat"]
-	path = puppet\\modules\\concat
+[submodule "puppet/modules/concat"]
+	path = puppet/modules/concat
 	url = https://github.com/puppetlabs/puppetlabs-concat.git
-[submodule "puppet\\modules\\lib-file_concat"]
-	path = puppet\\modules\\lib-file_concat
+[submodule "puppet/modules/lib-file_concat"]
+	path = puppet/modules/lib-file_concat
 	url = https://github.com/electrical/puppet-lib-file_concat.git
-[submodule "puppet\\modules\\nodejs"]
-	path = puppet\\modules\\nodejs
+[submodule "puppet/modules/nodejs"]
+	path = puppet/modules/nodejs
 	url = https://github.com/willdurand/puppet-nodejs.git
-[submodule "puppet\\modules\\mysql"]
-	path = puppet\\modules\\mysql
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
 	url = https://github.com/puppetlabs/puppetlabs-mysql.git

@@ -34,19 +34,24 @@ node 'default' {
   }
 
   # apache
+  $apache_docroot = hiera('apache_docroot', '/vagrant')
   class { 'apache':
     mpm_module => 'prefork',
-    docroot => '/vagrant',
+    docroot => $apache_docroot,
     require => Apt::Ppa['ppa:ondrej/php5']
   }
 
-  apache::vhost { 'vagrant.dev':
-    docroot       => '/vagrant',
-    override      => 'All',
-    serveraliases => [
-      'www.vagrant.dev'
-    ]
-  }
+  $apache_vhosts = hiera('apache_vhosts', {
+    'vagrant.dev' => {
+      docroot       => '/vagrant',
+      override      => 'All',
+      serveraliases => [
+        'www.vagrant.dev'
+      ]
+    }
+  })
+
+  create_resources(apache::vhost, $apache_vhosts)
 
   apache::mod { 'rewrite': }
 
