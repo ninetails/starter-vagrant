@@ -8,12 +8,6 @@ domain = "vagrant.dev"
 
 vdir = File.expand_path(File.dirname(__FILE__))
 
-# Aliases
-aliases = [ "www.#{domain}" ]
-if File.exists?(File.expand_path(File.join(vdir, "aliases")))
-  aliases = File.readlines(File.join(vdir, "aliases")).map(&:chomp).grep(/\A[^#]/).flatten.uniq
-end
-
 # Machines
 machines = {
   'default' => {
@@ -59,8 +53,8 @@ if ENV["PROCESSOR_ARCHITECTURE"] == "x86"
 end
 
 # finds if machines was overwrited
-if File.exists?(File.expand_path(File.join(vdir, "machines.yaml")))
-  machines = YAML::load_file(File.join(vdir, "machines.yaml"))
+if File.exists?(File.expand_path(File.join(vdir, '..', "machines.yaml")))
+  machines = YAML::load_file(File.join(vdir, '..', "machines.yaml"))
 end
 
 # search for hiera.yaml
