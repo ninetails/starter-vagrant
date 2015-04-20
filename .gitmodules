@@ -31,9 +31,6 @@
 [submodule "puppet/modules/lib-file_concat"]
 	path = puppet/modules/lib-file_concat
 	url = https://github.com/electrical/puppet-lib-file_concat.git
-[submodule "puppet/modules/nodejs"]
-	path = puppet/modules/nodejs
-	url = https://github.com/willdurand/puppet-nodejs.git
 [submodule "puppet/modules/mysql"]
 	path = puppet/modules/mysql
 	url = https://github.com/puppetlabs/puppetlabs-mysql.git
