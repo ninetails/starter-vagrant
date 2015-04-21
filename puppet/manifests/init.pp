@@ -121,9 +121,7 @@ node 'default' {
    create_resources(mysql::db, $mysql_db, {require => File['/root/.my.cnf']})
 
   # node.js
-  class { 'nodejs':
-    version => 'latest'
-  }
+  class { 'nodejs': }
 
   $npm_modules = hiera('npm_modules', [
     'bower',
@@ -132,6 +130,7 @@ node 'default' {
   ])
 
   package { $npm_modules:
+    ensure   => 'present',
     provider => 'npm',
     require  => Class['nodejs']
   }
