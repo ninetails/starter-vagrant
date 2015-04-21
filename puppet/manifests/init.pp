@@ -36,13 +36,17 @@ node 'default' {
   # apache
   $apache_docroot = hiera('apache_docroot', '/vagrant')
   class { 'apache':
-    mpm_module => 'prefork',
-    docroot => $apache_docroot,
-    require => Apt::Ppa['ppa:ondrej/php5']
+    mpm_module    => 'prefork',
+    default_vhost => false,
+    docroot       => $apache_docroot,
+    require       => Apt::Ppa['ppa:ondrej/php5']
   }
 
   $apache_vhosts = hiera('apache_vhosts', {
     'vagrant.dev' => {
+      default_vhost => true,
+      vhost_name    => '*',
+      port          => '80',
       docroot       => '/vagrant',
       override      => 'All',
       serveraliases => [
@@ -73,7 +77,7 @@ node 'default' {
 
   php::module { $php_modules: }
 
-  php::module { ["apc", "suhosin"]:
+  php::module { 'apc':
     module_prefix => "php-"
   }
 
@@ -103,22 +107,22 @@ node 'default' {
   }
 
   # mysql
-   $mysql_root_password = hiera('mysql_root_pass', '123456')
-   class { 'mysql::server':
-     root_password => $mysql_root_password,
-   }
+  $mysql_root_password = hiera('mysql_root_pass', '123456')
+  class { 'mysql::server':
+    root_password => $mysql_root_password,
+  }
 
-   $mysql_db = hiera('mysql_db', {
-     'db' => {
-       user     => 'dev',
-       password => '123456',
-       host     => 'localhost',
-       grant    => ['all'],
-       charset  => 'utf8'
-     }
-   })
+  $mysql_db = hiera('mysql_db', {
+    'db' => {
+      user     => 'dev',
+      password => '123456',
+      host     => 'localhost',
+      grant    => ['all'],
+      charset  => 'utf8'
+    }
+  })
 
-   create_resources(mysql::db, $mysql_db, {require => File['/root/.my.cnf']})
+  create_resources(mysql::db, $mysql_db, {require => File['/root/.my.cnf']})
 
   # node.js
   class { 'nodejs': }
