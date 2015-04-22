@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
       # Aliases
       if vmconf['vm'].has_key?('aliases') && (vmconf['vm']['aliases'].respond_to? :each)
         if Vagrant.has_plugin?("vagrant-hostsupdater")
-          machine.hostmanager.aliases = vmconf['vm']['aliases']
+          config.hostsupdater.aliases = Array(config.hostsupdater.aliases) | Array(vmconf['vm']['aliases'])
         end
       end
 
