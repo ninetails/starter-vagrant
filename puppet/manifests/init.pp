@@ -69,6 +69,7 @@ node 'default' {
   $php_modules = hiera('php_modules', [
     'cli',
     'curl',
+    'gd',
     'intl',
     'mcrypt',
     'mysqlnd',
