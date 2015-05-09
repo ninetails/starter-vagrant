@@ -111,11 +111,9 @@ Vagrant.configure("2") do |config|
       if vmconf['vm'].has_key?('synced_folder') && (vmconf['vm']['synced_folder'].respond_to? :each)
         vmconf['vm']['synced_folder'].each do |folder|
           if folder.has_key?('nfs') && folder['nfs'] || (RUBY_PLATFORM =~ /mingw32/).nil?
-            machine.vm.synced_folder folder['host'], folder['guest'], id: folder['id'], nfs: true,
-              map_uid: 0,
-              map_gid: 0
+            machine.vm.synced_folder folder['host'], folder['guest'], id: folder['id'], nfs: true, owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
           else
-            machine.vm.synced_folder folder['host'], folder['guest'], id: folder['id'], nfs: false
+            machine.vm.synced_folder folder['host'], folder['guest'], id: folder['id'], nfs: false, owner: "vagrant", group: "www-data", mount_options: ["dmode=775,fmode=664"]
           end
         end
       end

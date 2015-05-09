@@ -42,6 +42,22 @@ node 'default' {
     require       => Apt::Ppa['ppa:ondrej/php5']
   }
 
+  # Change user
+  exec { "ApacheUserChange" :
+    command => "sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars",
+    onlyif  => "grep -c 'APACHE_RUN_USER=www-data' /etc/apache2/envvars",
+    require => Package["apache2"],
+    notify  => Service["apache2"]
+  }
+
+  # Change group
+  exec { "ApacheGroupChange" :
+    command => "sed -i 's/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars",
+    onlyif  => "grep -c 'APACHE_RUN_GROUP=www-data' /etc/apache2/envvars",
+    require => Package["apache2"],
+    notify  => Service["apache2"]
+  }
+
   $apache_vhosts = hiera('apache_vhosts', {
     'vagrant.dev' => {
       default_vhost => true,
