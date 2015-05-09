@@ -134,6 +134,10 @@ Vagrant.configure("2") do |config|
         end
       end
 
+      if File.exists?(File.expand_path(File.join(vdir, '..', "extras.sh")))
+        machine.vm.provision :shell, :path => File.join(vdir, '..', "extras.sh")
+      end
+
     end
   end
 
